@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPL Random Team Generator</title>
+    <link rel="stylesheet" href="static/style.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Inline styles for better visualization */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        .button-container {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 15px;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .loading {
+            color: blue;
+        }
+        .error {
+            color: red;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>FPL Random Team Generator</h1>
+    <div class="button-container">
+        <button id="getRandomTeam">Get Random Team</button>
+    </div>
+    <div id="results"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const resultDiv = document.getElementById('results');
+
+            // Fetch random team when the "Get Random Team" button is clicked
+            document.getElementById('getRandomTeam').addEventListener('click', function() {
+                resultDiv.innerHTML = '<p class="loading">Generating random team...</p>';
+                fetch('/api/random-team') // Ensure this matches your Flask route
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        displayRandomTeam(data);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching random team:', error);
+                        resultDiv.innerHTML = `<p class="error">Error generating random team: ${error.message}</p>`;
+                    });
+            });
+
+            // Display random team
+            function displayRandomTeam(data) {
+                resultDiv.innerHTML = "<h2>Random Team</h2>";
+                if (Array.isArray(data.team)) {
+                    let tableHTML = '<table><tr><th>Player</th><th>Team</th><th>Position</th><th>Predicted Points</th></tr>';
+                    data.team.forEach(player => {
+                        tableHTML += `<tr><td>${player.name}</td><td>${player.team}</td><td>${player.position}</td><td>${player.predicted_points.toFixed(2)}</td></tr>`;
+                    });
+                    tableHTML += '</table>';
+                    resultDiv.innerHTML += tableHTML;
+                } else {
+                    resultDiv.innerHTML += `<p>No team data available.</p>`;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
