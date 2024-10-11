@@ -26,7 +26,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone
+git clone https://github.com/Thundastormgod/FantasyAI
 cd fpl-random-team-generator
 
 **Create a virtual environment:**
