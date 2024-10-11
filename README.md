@@ -28,6 +28,7 @@ bash
 Copy code
 git clone https://github.com/your-username/fpl-random-team-generator.git
 cd fpl-random-team-generator
+
 **Create a virtual environment:**
 
 bash
@@ -43,9 +44,7 @@ Set up environment variables: Create a .env file to store any necessary API keys
 
 **Run the application:**
 
-bash
-Copy code
-flask run
+python run.py or app.py
 The app will be available at http://localhost:5000.
 
 **Usage**
@@ -76,18 +75,23 @@ Transfers in/out
 **Steps****
 
 Data Preprocessing: Clean and preprocess FPL data for training.
+
 Model Training: Train Random Forest and XGBoost models using player historical data.
 
 Prediction: Use the trained models to predict points for each player.
 
 Top Player Selection: Select the top 30 players with the highest predicted points.
-API Endpoints
+API Endpoints.
+
+The Model is evaluated using a  RMSE - Real Mean Squared Error, Training loss and Evaluation loss.
+
 
 The application exposes several API endpoints for interaction:
 
 /generate-team: Generates a random FPL team from the optimal player pool.
 /train-model: Re-trains the machine learning models on new data (admin-only endpoint).
 /get-players: Returns player data, including predicted points.
+
 Technologies Used
 Python: Core language for backend and model training.
 Flask: Web framework for creating the API and frontend interface.
