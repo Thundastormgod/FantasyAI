@@ -26,7 +26,7 @@ Clone the repository:
 
 bash
 Copy code
-git clone https://github.com/your-username/fpl-random-team-generator.git
+git clone
 cd fpl-random-team-generator
 
 **Create a virtual environment:**
